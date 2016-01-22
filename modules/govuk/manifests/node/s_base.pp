@@ -16,6 +16,7 @@ class govuk::node::s_base (
   include base
   include govuk_firewall
   include govuk::safe_to_reboot
+  include govuk_sshkeys
   include govuk_rbenv
   include grub2
   include harden
