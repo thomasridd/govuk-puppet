@@ -68,7 +68,7 @@ class govuk::apps::hmrc_manuals_api(
     log_format_is_json => true,
   }
 
-  govuk::procfile::worker {'hmrc-manuals-api':
+  govuk_procfile::worker {'hmrc-manuals-api':
     enable_service => $enable_procfile_worker,
   }
 }

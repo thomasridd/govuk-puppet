@@ -23,7 +23,7 @@ class govuk::apps::support($port = '3031', $enable_procfile_worker = true) {
     asset_pipeline     => true,
   }
 
-  govuk::procfile::worker { 'support':
+  govuk_procfile::worker { 'support':
     enable_service => $enable_procfile_worker,
   }
 }

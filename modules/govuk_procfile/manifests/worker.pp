@@ -1,4 +1,4 @@
-# == Define: govuk::procfile::worker
+# == Define: govuk_procfile::worker
 #
 # Creates an upstart entry for a worker as defined by the application's Procfile.
 #
@@ -22,7 +22,7 @@
 #   This variable is used by the govuk/procfile-worker.conf.erb template.
 #   Default: $title
 #
-define govuk::procfile::worker (
+define govuk_procfile::worker (
   $enable_service = true,
   $ensure = present,
   $process_type = 'worker',
@@ -30,16 +30,16 @@ define govuk::procfile::worker (
 ) {
   validate_re($ensure, '^(present|absent)$', '$ensure must be "present" or "absent"')
 
-  include govuk::procfile
+  include govuk_procfile
 
   $service_name = "${title}-procfile-worker"
 
   if $ensure == present {
     file { "/etc/init/${service_name}.conf":
       ensure    => present,
-      content   => template('govuk/procfile-worker.conf.erb'),
+      content   => template('govuk_procfile/etc/init/procfile-worker.conf.erb'),
       notify    => Service[$service_name],
-      subscribe => Class['Govuk::Procfile'],
+      subscribe => Class['Govuk_procfile'],
     }
 
     service { $service_name:

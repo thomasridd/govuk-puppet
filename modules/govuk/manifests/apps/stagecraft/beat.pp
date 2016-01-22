@@ -14,7 +14,7 @@ class govuk::apps::stagecraft::beat (
   if $enabled {
     include govuk::apps::stagecraft
 
-    govuk::procfile::worker { 'stagecraft-beat':
+    govuk_procfile::worker { 'stagecraft-beat':
       setenv_as    => 'stagecraft',
       process_type => 'beat',
     }

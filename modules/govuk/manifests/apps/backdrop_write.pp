@@ -30,7 +30,7 @@ class govuk::apps::backdrop_write (
       log_format_is_json => true,
     }
 
-    govuk::procfile::worker { 'backdrop-transformer':
+    govuk_procfile::worker { 'backdrop-transformer':
       setenv_as      => 'backdrop-write',
       enable_service => $enable_procfile_worker,
     }

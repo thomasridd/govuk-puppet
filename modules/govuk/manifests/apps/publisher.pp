@@ -74,7 +74,7 @@ class govuk::apps::publisher(
     }
   }
 
-  govuk::procfile::worker {'publisher':
+  govuk_procfile::worker {'publisher':
     enable_service => $enable_procfile_worker,
   }
 

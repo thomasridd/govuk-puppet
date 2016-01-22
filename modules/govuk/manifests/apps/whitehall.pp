@@ -177,7 +177,7 @@ class govuk::apps::whitehall(
       json    => true,
     }
 
-    govuk::procfile::worker { 'whitehall-admin':
+    govuk_procfile::worker { 'whitehall-admin':
       setenv_as      => 'whitehall',
       enable_service => $enable_procfile_worker,
     }

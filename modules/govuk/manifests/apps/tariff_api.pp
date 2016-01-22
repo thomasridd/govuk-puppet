@@ -26,7 +26,7 @@ class govuk::apps::tariff_api(
     nagios_memory_warning  => $nagios_memory_warning,
     nagios_memory_critical => $nagios_memory_critical,
   }
-  govuk::procfile::worker {'tariff-api':
+  govuk_procfile::worker {'tariff-api':
     enable_service => $enable_procfile_worker,
   }
 

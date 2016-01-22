@@ -62,7 +62,7 @@ class govuk::apps::panopticon(
     password => $rabbitmq_password,
   }
 
-  govuk::procfile::worker { 'panopticon':
+  govuk_procfile::worker { 'panopticon':
     enable_service => $enable_procfile_worker,
   }
 

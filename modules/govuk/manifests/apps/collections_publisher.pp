@@ -51,7 +51,7 @@ class govuk::apps::collections_publisher(
       value   => $publishing_api_bearer_token;
   }
 
-  govuk::procfile::worker {'collections-publisher':
+  govuk_procfile::worker {'collections-publisher':
     enable_service => $enable_procfile_worker,
   }
 }

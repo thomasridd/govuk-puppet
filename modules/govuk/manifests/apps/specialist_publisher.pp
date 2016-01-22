@@ -65,7 +65,7 @@ client_max_body_size 500m;
       }
     }
 
-    govuk::procfile::worker { 'specialist-publisher':
+    govuk_procfile::worker { 'specialist-publisher':
       enable_service => $enable_procfile_worker,
     }
 

@@ -14,7 +14,7 @@ class govuk::apps::stagecraft::worker (
   if $enabled {
     include govuk::apps::stagecraft
 
-    govuk::procfile::worker { 'stagecraft-worker':
+    govuk_procfile::worker { 'stagecraft-worker':
       setenv_as => 'stagecraft',
     }
   }

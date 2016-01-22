@@ -51,7 +51,7 @@ class govuk::apps::signon(
     app => $app_name,
   }
 
-  govuk::procfile::worker { $app_name:
+  govuk_procfile::worker { $app_name:
     enable_service => $enable_procfile_worker,
   }
 

@@ -71,7 +71,7 @@ class govuk::apps::imminence(
     }
   }
 
-  govuk::procfile::worker { $app_name:
+  govuk_procfile::worker { $app_name:
     enable_service => $enable_procfile_worker,
   }
 }
