@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-describe 'govuk::procfile::worker', :type => :define do
+describe 'govuk_procfile::worker', :type => :define do
   let(:title) { 'giraffe' }
 
   context "in non-development environments" do

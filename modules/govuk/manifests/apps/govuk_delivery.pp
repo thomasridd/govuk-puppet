@@ -15,7 +15,7 @@ class govuk::apps::govuk_delivery(
       log_format_is_json => true;
     }
 
-    govuk::procfile::worker { 'govuk-delivery':
+    govuk_procfile::worker { 'govuk-delivery':
       enable_service => $enable_procfile_worker,
     }
   }

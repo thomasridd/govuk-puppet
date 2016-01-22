@@ -48,7 +48,7 @@ class govuk::apps::content_register(
     password => $rabbitmq_password,
   }
 
-  govuk::procfile::worker {'content-register':
+  govuk_procfile::worker {'content-register':
     enable_service => $enable_procfile_worker,
   }
   govuk_rabbitmq::monitor_consumers {'content-register_rabbitmq-consumers':

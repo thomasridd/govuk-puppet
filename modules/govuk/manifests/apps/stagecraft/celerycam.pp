@@ -14,7 +14,7 @@ class govuk::apps::stagecraft::celerycam (
   if $enabled {
     include govuk::apps::stagecraft
 
-    govuk::procfile::worker { 'stagecraft-celerycam':
+    govuk_procfile::worker { 'stagecraft-celerycam':
       setenv_as    => 'stagecraft',
       process_type => 'celerycam',
     }

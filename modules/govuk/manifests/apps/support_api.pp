@@ -34,7 +34,7 @@ class govuk::apps::support_api(
     group  => 'assets',
   }
 
-  govuk::procfile::worker { 'support-api':
+  govuk_procfile::worker { 'support-api':
     enable_service => $enable_procfile_worker,
   }
 

@@ -10,7 +10,7 @@ class govuk::apps::transition( $port = '3044', $enable_procfile_worker = true ) 
     deny_framing       => true,
   }
 
-  govuk::procfile::worker {'transition':
+  govuk_procfile::worker {'transition':
     enable_service => $enable_procfile_worker,
   }
 }

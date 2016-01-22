@@ -60,7 +60,7 @@ class govuk::apps::email_campaign_api(
       database => $mongodb_name,
     }
 
-    govuk::procfile::worker {'email-campaign-api':
+    govuk_procfile::worker {'email-campaign-api':
       enable_service => $enable_procfile_worker,
     }
 

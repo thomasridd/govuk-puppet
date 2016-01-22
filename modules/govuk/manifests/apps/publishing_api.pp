@@ -88,7 +88,7 @@ class govuk::apps::publishing_api(
     deny_framing      => true,
   }
 
-  govuk::procfile::worker {'publishing-api':
+  govuk_procfile::worker {'publishing-api':
     enable_service => $enable_procfile_worker,
   }
 

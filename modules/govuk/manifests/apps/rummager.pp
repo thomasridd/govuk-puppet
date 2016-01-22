@@ -98,11 +98,11 @@ class govuk::apps::rummager(
     password => $rabbitmq_password,
   }
 
-  govuk::procfile::worker { 'rummager':
+  govuk_procfile::worker { 'rummager':
     enable_service => $enable_procfile_worker,
   }
 
-  govuk::procfile::worker { 'rummager-publishing-api-document-indexer':
+  govuk_procfile::worker { 'rummager-publishing-api-document-indexer':
     setenv_as      => 'rummager',
     enable_service => $enable_publishing_api_document_indexer,
     process_type   => 'publishing-api-document-indexer',
