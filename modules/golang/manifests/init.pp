@@ -4,7 +4,7 @@
 # for use on a dev VM.
 #
 class golang {
-  include govuk::ppa
+  include govuk_ppa
 
   class { 'goenv':
     global_version => '1.5.3',
@@ -19,7 +19,7 @@ class golang {
 
   package { ['golang-gom', 'godep']:
     ensure  => latest,
-    require => Class['govuk::ppa'],
+    require => Class['govuk_ppa'],
   }
 
   # Ensure that scm tools used by `go get` are present.
