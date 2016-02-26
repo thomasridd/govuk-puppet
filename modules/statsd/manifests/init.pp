@@ -2,31 +2,25 @@
 #
 # This class installs and sets-up statsd
 #
-class statsd(
-  $graphite_hostname
-) {
-  include govuk::ppa
-  include nodejs
+class statsd() {
+  # FIXME Remove this class once deployed
+
+  if (!defined(Class['nodejs'])) {
+    class { 'nodejs':
+      version => 'absent',
+    }
+  }
 
   package { 'statsd':
-    ensure  => 'latest',
-    require => Class['nodejs'],
+    ensure  => absent,
   }
 
   file { '/etc/statsd.conf':
-    content => template('statsd/etc/statsd.conf.erb'),
-    require => Package['statsd'],
-    notify  => Service['statsd'],
+    ensure => absent,
   }
 
   service { 'statsd':
-    ensure  => running,
-    require => [Package['statsd'], File['/etc/statsd.conf']],
-  }
-
-  @@icinga::check { "check_statsd_upstart_up_${::hostname}":
-    check_command       => 'check_nrpe!check_upstart_status!statsd',
-    service_description => 'statsd upstart up',
-    host_name           => $::fqdn,
+    ensure => stopped,
+    before => [Package['statsd'], File['/etc/statsd.conf']],
   }
 }

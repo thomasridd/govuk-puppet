@@ -7,6 +7,7 @@ class monitoring::client {
   include auditd
   include collectd
   include collectd::plugin::tcp
+  include collectd::plugin::statsd
 
   package {'gds-nagios-plugins':
     ensure   => '1.4.0',
@@ -14,8 +15,7 @@ class monitoring::client {
     require  => Package['update-notifier-common'],
   }
 
-  class { 'statsd':
-    graphite_hostname => 'graphite.cluster',
-  }
+  # FIXME: Remove once deployed
+  include statsd
 
 }
