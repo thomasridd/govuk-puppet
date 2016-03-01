@@ -33,6 +33,8 @@ hosts::production::management::hosts:
     ip: '10.1.0.75'
   cache-1:
     ip: '10.1.0.2'
+  graphite-1:
+    ip: '10.1.0.5'
   jumpbox-1:
     ip: '10.1.0.100'
 

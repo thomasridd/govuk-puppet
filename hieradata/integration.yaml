@@ -197,6 +197,7 @@ govuk::node::s_frontend_lb::performance_frontend_apps:
 govuk::node::s_frontend_lb::whitehall_frontend_servers:
   - 'whitehall-frontend-1.frontend'
   - 'whitehall-frontend-2.frontend'
+govuk::node::s_graphite::standalone_statsd: false
 govuk::node::s_logs_elasticsearch::rotate_hour: 06
 govuk::node::s_logs_elasticsearch::rotate_minute: 00
 govuk::node::s_licensify_lb::enable_feed_console: true
@@ -284,6 +285,8 @@ licensify::apps::licensing_web_forms::enabled: true
 
 monitoring::checks::pingdom::enable: false
 monitoring::checks::ses::region: eu-west-1
+
+monitoring::client::standalone_statsd: "%{hiera('govuk::node::s_graphite::standalone_statsd')}"
 
 postfix::smarthost:
   - 'email-smtp.eu-west-1.amazonaws.com:587'

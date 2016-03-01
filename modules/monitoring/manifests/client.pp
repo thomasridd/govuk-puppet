@@ -1,5 +1,17 @@
-# FIXME: This class needs better documentation as per https://docs.puppetlabs.com/guides/style_guide.html#puppet-doc
-class monitoring::client {
+# == Class: monitoring::client
+#
+# Configures tools used to monitor localhost and report back to Icinga.
+#
+# === Parameters
+#
+# [*standalone_statsd*]
+#   If true, use the standalone statsd server
+#   If false, use the collectd statsd plugin
+#
+class monitoring::client (
+  $standalone_statsd = true,
+){
+  validate_bool($standalone_statsd)
 
   include monitoring::client::apt
   include icinga::client
@@ -7,7 +19,10 @@ class monitoring::client {
   include auditd
   include collectd
   include collectd::plugin::tcp
-  include collectd::plugin::statsd
+
+  if (!$standalone_statsd) {
+    include collectd::plugin::statsd
+  }
 
   package {'gds-nagios-plugins':
     ensure   => '1.4.0',
@@ -15,7 +30,7 @@ class monitoring::client {
     require  => Package['update-notifier-common'],
   }
 
-  # FIXME: Remove once deployed
-  include statsd
-
+  class { 'statsd':
+    enable => $standalone_statsd,
+  }
 }

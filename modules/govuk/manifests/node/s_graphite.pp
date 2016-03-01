@@ -13,6 +13,7 @@
 class govuk::node::s_graphite (
   $enable_basic_auth = true,
   $graphite_path = '/opt/graphite',
+  $standalone_statsd = true,
 ) inherits govuk::node::s_base {
   validate_bool($enable_basic_auth)
 
@@ -22,7 +23,7 @@ class govuk::node::s_graphite (
     carbon_aggregator          => true,
     aggregation_rules_source   => 'puppet:///modules/govuk/node/s_graphite/aggregation-rules.conf',
     storage_aggregation_source => 'puppet:///modules/govuk/node/s_graphite/storage-aggregation.conf',
-    storage_schemas_source     => 'puppet:///modules/govuk/node/s_graphite/storage-schemas.conf',
+    storage_schemas_content    => template('govuk/node/s_graphite/storage-schemas.conf'),
     carbon_source              => 'puppet:///modules/govuk/node/s_graphite/carbon.conf',
     require                    => Govuk::Mount[$graphite_path],
   }
