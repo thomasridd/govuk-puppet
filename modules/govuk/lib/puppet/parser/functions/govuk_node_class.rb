@@ -28,15 +28,20 @@ EOS
       "govuk_node_class: Unable to lookup $::trusted - is trusted_node_data enabled?"
     ) if trusted_hash.nil? or trusted_hash.empty?
 
-    certname = trusted_hash['certname']
+    hostname = trusted_hash['certname']
     raise(
       Puppet::ParseError,
       "govuk_node_class: Unable to lookup $::trusted['certname']"
-    ) if certname.nil? or certname.empty?
+    ) if hostname.nil? or hostname.empty?
 
-    hostname = certname.split('.').first
-    class_name = hostname.gsub(/-\d+$/, '')
-    class_name.gsub!('-', '_')
+    node_class_fact = lookupvar('node_class')
+
+    if node_class_fact.nil? or node_class_fact.empty?
+      class_name = hostname.split('.').first.gsub(/-\d+$/, '')
+      class_name.gsub!('-', '_')
+    else
+      class_name = node_class_fact
+    end
 
     class_name
   end

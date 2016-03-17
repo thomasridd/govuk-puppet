@@ -40,6 +40,13 @@ Vagrant.configure("2") do |config|
     nfs: ENV['VAGRANT_GOVUK_NFS'] == "no" ? false : true,
   }
 
+  if ENV['VAGRANT_GOVUK_AWS'] == 'true'
+    synced_folder = {
+      source: '.',
+      destination: '/var/govuk/govuk-puppet',
+    }
+  end
+
   nodes.each do |node_name, node_opts|
     config.vm.define node_name do |c|
       box_name, box_url = get_box(
@@ -82,6 +89,27 @@ Vagrant.configure("2") do |config|
         )
       end
 
+      c.vm.provider(:aws) do |aws, override|
+        override.vm.box = 'dummy'
+        override.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
+
+        aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']
+        aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
+        aws.ami = 'ami-4456ec37'
+        aws.region = 'eu-west-1'
+        aws.instance_type = 't2.small'
+        aws.security_groups = ['alexmuller_allow_ssh']
+        aws.keypair_name = 'alexmuller_test_vagrant'
+
+        aws.tags = {
+          'Name' => node_name,
+          'Owner' => ENV['USER'],
+        }
+
+        override.ssh.username = 'ubuntu'
+        override.ssh.private_key_path = "~/.ssh/alexmuller_test_vagrant.pem"
+      end
+
       if synced_folder[:nfs]
         c.vm.synced_folder synced_folder[:source], synced_folder[:destination], :nfs => true
       else
@@ -97,6 +125,14 @@ Vagrant.configure("2") do |config|
 
       # run a script to partition extra disks for lvm if they exist.
       c.vm.provision :shell, :inline => "/var/govuk/govuk-puppet/tools/partition-disks"
+
+      if ENV['VAGRANT_GOVUK_AWS'] == 'true'
+        facter_dir = '/etc/facter/facts.d'
+        node_class = node_name.split('.').first.gsub(/-\d+$/, '')
+        c.vm.provision :shell, :inline => "mkdir -p #{facter_dir} && echo 'node_class=#{node_class}' > #{facter_dir}/node_class.txt"
+        c.vm.provision :shell, :inline => "gem install --no-ri --no-rdoc hiera-eyaml-gpg gpgme"
+      end
+
       c.vm.provision :shell, :inline => "ENVIRONMENT=vagrant /var/govuk/govuk-puppet/tools/puppet-apply #{ENV['VAGRANT_GOVUK_PUPPET_OPTIONS']}"
     end
   end

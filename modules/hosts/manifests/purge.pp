@@ -11,9 +11,9 @@
 # `ensure => absent`.
 #
 class hosts::purge {
-  if !defined(Govuk::Host[$::hostname]) {
-    fail("Unable to find Govuk::Host[${::hostname}]. Aborting so as not to break hostname(1)")
-  }
+  # if !defined(Govuk::Host[$::hostname]) {
+  #   fail("Unable to find Govuk::Host[${::hostname}]. Aborting so as not to break hostname(1)")
+  # }
 
   resources { 'host':
     purge => true,
