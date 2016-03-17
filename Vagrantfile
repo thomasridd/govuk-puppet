@@ -34,6 +34,12 @@ Vagrant.configure("2") do |config|
 
   config.ssh.shell = 'bash'
 
+  synced_folder = {
+    source: '..',
+    destination: '/var/govuk',
+    nfs: ENV['VAGRANT_GOVUK_NFS'] == "no" ? false : true,
+  }
+
   nodes.each do |node_name, node_opts|
     config.vm.define node_name do |c|
       box_name, box_url = get_box(
@@ -76,10 +82,10 @@ Vagrant.configure("2") do |config|
         )
       end
 
-      if ENV['VAGRANT_GOVUK_NFS'] == "no"
-        c.vm.synced_folder "..", "/var/govuk"
+      if synced_folder[:nfs]
+        c.vm.synced_folder synced_folder[:source], synced_folder[:destination], :nfs => true
       else
-        c.vm.synced_folder "..", "/var/govuk", :nfs => true
+        c.vm.synced_folder synced_folder[:source], synced_folder[:destination]
       end
 
       # These can't be NFS because OSX won't export overlapping paths.
