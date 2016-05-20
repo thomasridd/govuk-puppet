@@ -72,6 +72,7 @@ govuk::node::s_development::apps:
   - 'publisher'
   - 'publishing_api'
   - 'publishing_api::rabbitmq'
+  - 'railsgoat'
   - 'release'
   - 'router'
   - 'router_api'
