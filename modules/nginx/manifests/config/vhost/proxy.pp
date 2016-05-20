@@ -69,6 +69,7 @@
 #   The error percentage that triggers a critical alert
 #
 define nginx::config::vhost::proxy(
+  $custom_http_host = undef,
   $to,
   $to_ssl = false,
   $aliases = [],

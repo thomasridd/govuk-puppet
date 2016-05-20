@@ -69,9 +69,11 @@ class govuk::apps::specialist_publisher_rebuild(
   $secret_token = undef,
 ) {
   $app_name = 'specialist-publisher-rebuild'
+  $app_domain = hiera('app_domain')
 
   if $enabled {
     govuk::app { $app_name:
+      custom_http_host   => "specialist-publisher.${app_domain}",
       app_type           => 'rack',
       port               => $port,
       health_check_path  => '/healthcheck',

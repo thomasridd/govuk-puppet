@@ -65,6 +65,7 @@
 #   The error percentage that triggers a critical alert
 #
 define govuk::app::nginx_vhost (
+  $custom_http_host = undef,
   $vhost,
   $app_port,
   $aliases = [],
@@ -102,6 +103,7 @@ define govuk::app::nginx_vhost (
   }
 
   nginx::config::vhost::proxy { $vhost:
+    custom_http_host => $custom_http_host,
     ensure                  => $ensure,
     to                      => ["localhost:${app_port}"],
     aliases                 => $aliases,

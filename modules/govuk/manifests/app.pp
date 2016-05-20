@@ -245,6 +245,7 @@
 # backing app before it sends the client a 504. It defaults to 15 seconds.
 #
 define govuk::app (
+  $custom_http_host = undef,
   $app_type,
   $port = 0,
   $command = undef,
@@ -313,6 +314,7 @@ define govuk::app (
   }
 
   govuk::app::config { $title:
+    custom_http_host => $custom_http_host,
     ensure                    => $ensure,
     require                   => Govuk::App::Package[$title],
     app_type                  => $app_type,

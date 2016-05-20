@@ -13,6 +13,7 @@
 #   Memory use, in MB, at which Nagios should generate a critical alert.
 #
 define govuk::app::config (
+  $custom_http_host = undef,
   $app_type,
   $domain,
   $port,
@@ -182,6 +183,7 @@ define govuk::app::config (
 
     # Expose this application from nginx
     govuk::app::nginx_vhost { $title:
+      custom_http_host => $custom_http_host,
       ensure                  => $ensure,
       vhost                   => $vhost_full,
       aliases                 => $vhost_aliases_real,
