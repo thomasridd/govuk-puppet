@@ -86,6 +86,25 @@ server {
   }
   <%- end -%>
 
+  <%= add_extra_stuff_here %>
+
+  <% @modified_paths.each do |path, stuff| %>
+  location <%= path %> {
+    proxy_set_header Host <%= stuff['app'] %>.<%= @vhost_suffix %>;
+    proxy_pass https://<%= @vhost %>-upstream;
+  }
+  <% end %>
+
+  location /cma-cases {
+    proxy_set_header Host specialist-publisher-rebuild.<%= @vhost_suffix %>;
+    proxy_pass https://<%= @vhost %>-upstream;
+  }
+  ​
+  location /sp-rebuild/assets {
+    proxy_set_header Host specialist-publisher-rebuild.<%= @vhost_suffix %>;
+    proxy_pass https://<%= @vhost %>-upstream;
+  }
+
   location / {
     <%- if @internal_only -%>
     # Only accept connnections from internal machines
