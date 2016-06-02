@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# check_recursive_file_age
+#
+# Nagios plugin to recursively check if there is a file older than a given age
+# within a given directory.
+
+DIRECTORY=$1
+WARNING=$2
+CRITICAL=$3
+
+usage() {
+  echo "check_recursive_file_age!<directory> <warning <critical>"
+  echo "Recursively check a directory that ANY files exist that is older than a"
+  echo "specific age in minutes."
+  exit 3
+}
+
+if [[ $# != 3 ]]; then
+  usage
+fi
+
+NUM='^[0-9]+$'
+
+if ! [[ $WARNING =~ $NUM ]] || ! [[ $CRITICAL =~ $NUM ]]; then
+  echo "Invalid arguments"
+  exit 3
+fi
+
+if [[ ! -e $DIRECTORY ]]; then
+  echo "Directory does not exist"
+  exit 3
+fi
+
+WARNING_COUNT=$(find $DIRECTORY -type f -mmin +$WARNING |wc -l 2>/dev/null)
+CRITICAL_COUNT=$(find $DIRECTORY -type f -mmin +$CRITICAL |wc -l 2>/dev/null)
+
+if [ $WARNING_COUNT -eq 0 ]; then
+  echo "STATUS OK"
+  exit 0
+elif [[ $CRITICAL_COUNT -gt 0 ]]; then
+  echo "STATUS CRITCAL: files exist older than $CRITICAL minutes"
+  exit 2
+elif [[ $WARNING_COUNT -gt 0 ]]; then
+  echo "STATUS WARNING: files exist older than $WARNING minutes"
+  exit 1
+else
+  echo "STATUS UNKNOWN"
+  exit 3
+fi
