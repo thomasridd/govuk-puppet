@@ -1,39 +1,25 @@
 require 'rspec'
-require 'spec_helper'
+require_relative '../../../../spec_helper'
+require 'rspec-puppet'
 
-  describe 'Create defined type', :type => :class do
-    let(:param_str) {{
-        :user     => 'govuk-backup',
-        :env_path => '/etc/env_dir',
-        :envname  => 's3_keys',
-        :name     => 'aws_access_key',
-        :envar    => 'ACCESS_KEY=IAMAKEY1983'
-    }}
+ describe 'govuk_envdir::env_file', :type => :define do
+   let(:pre_cond) {'file { "/etc/foo/bar/" :
+                      ensure => directory,
+                    }'}
 
-    let(:title) {'envdir'}
+   let(:title) {'env_file'}
+   let(:params) {{
+      :owner    => 'ralph',
+      :key      => 'yale',
+      :value    => 'lock',
+      :path     => '/etc/foo/bar',
+   }}
 
-    context 'The following folders should be created' do
+   context  'Create Env_File' do
+     it { is_expected.to compile.with_all_deps }
+     it { is_expected.to contain_file('/etc/foo/bar/').with_ensure('directory') }
+     it { is_expected.to contain_file('yale').with_path('/etc/foo/bar/yale').with_content('lock') }
+     it { is_expected.to contain_file('yale').with_path('/etc/foo/bar/yale').with_owner('ralph') }
+   end
 
-      it  { is_expected.to contain_file('/etc/env_dir/').with_ensure('directory') }
-      it  { is_expected.to contain_file('/etc/env_dir/s3_keys').with({
-        'ensure'  => 'directory',
-        'owner'   => 'root',
-        'group'   => 'root',
-        'mode'    => '0775',
-     })}
-    end
-
-    context 'This file should be present once the folders are in place'  do
-
-
-      it  { is_expected.to contain_file('/etc/env_dir/s3_keys/aws_access_key').with({
-        'ensure'  => 'file',
-        'owner'   => 'govuk-backup',
-        'group'   => 'govuk-backup',
-        'content' => 'ACCESS_KEY=IAMAKEY1983',
-        'mode'    => '0550',
-     })}
-    end
-
-
-end
+ end

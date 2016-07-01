@@ -9,4 +9,10 @@
 # Learn more about module testing here:
 # http://docs.puppetlabs.com/guides/tests_smoke.html
 #
-include envdir
+include govuk_envdir
+
+  govuk_envdir::env_file { 'testing':
+    owner => 'vagrant',
+    key   => 'look inside',
+    value => 'here',
+  }
