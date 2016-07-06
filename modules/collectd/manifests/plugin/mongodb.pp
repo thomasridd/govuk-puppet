@@ -3,7 +3,7 @@
 # Setup a collectd plugin to monitor MongoDB.
 #
 class collectd::plugin::mongodb {
-  include mongodb::python
+  include mongodb_legacy::python
   include collectd::plugin::python
 
   # Attribution: https://github.com/sebest/collectd-mongodb

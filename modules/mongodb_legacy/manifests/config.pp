@@ -1,4 +1,4 @@
-# == Class: mongodb::config
+# == Class: mongodb_legacy::config
 #
 # Configures a MongoDB server.
 #
@@ -18,11 +18,11 @@
 #
 # [*replicaset_name*]
 #   A string for the name of the replicaset.
-#   Passed in by `mongodb::server` which sets it to
+#   Passed in by `mongodb_legacy::server` which sets it to
 #   'production' unless $development is true, in which
 #   case it is set to 'development'.
 #
-class mongodb::config (
+class mongodb_legacy::config (
   $dbpath = '/var/lib/mongodb',
   $development,
   $oplog_size = undef,
@@ -34,7 +34,7 @@ class mongodb::config (
 
   file { '/etc/mongodb.conf':
     ensure  => present,
-    content => template('mongodb/mongodb.conf'),
+    content => template('mongodb_legacy/mongodb.conf'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',

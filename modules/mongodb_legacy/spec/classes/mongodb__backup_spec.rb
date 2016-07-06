@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-describe 'mongodb::backup', :type => :class do
+describe 'mongodb_legacy::backup', :type => :class do
   let(:params) {{
     :enabled            => true,
     :replicaset_members => [ 'foo', 'bar', 'baz' ],

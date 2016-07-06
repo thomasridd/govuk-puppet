@@ -1,4 +1,4 @@
-# == Class: mongodb::repository
+# == Class: mongodb_legacy::repository
 #
 # Manage APT repo for MongoDB.
 #
@@ -12,7 +12,7 @@
 #   Whether to use our mirror of the repo.
 #   Default: true
 #
-class mongodb::repository(
+class mongodb_legacy::repository(
   $apt_mirror_hostname = undef,
   $use_mirror = true,
 ) {

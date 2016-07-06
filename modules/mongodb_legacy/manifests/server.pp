@@ -1,4 +1,4 @@
-# == Class: mongodb::server
+# == Class: mongodb_legacy::server
 #
 # Setup a MongoDB server.
 #
@@ -21,7 +21,7 @@
 #   Saves space at the expense of data integrity.
 #   Default: false
 #
-class mongodb::server (
+class mongodb_legacy::server (
   $version,
   $package_name = 'mongodb-10gen',
   $dbpath = '/var/lib/mongodb',
@@ -36,13 +36,13 @@ class mongodb::server (
   }
 
   unless $development {
-    class { 'mongodb::backup':
+    class { 'mongodb_legacy::backup':
       replicaset_members => keys($replicaset_members),
     }
   }
 
   include govuk_unattended_reboot::mongodb
-  include mongodb::repository
+  include mongodb_legacy::repository
 
   if $development {
     $replicaset_name = 'development'
@@ -50,61 +50,61 @@ class mongodb::server (
     $replicaset_name = 'production'
   }
 
-  anchor { 'mongodb::begin':
-    before => Class['mongodb::repository'],
-    notify => Class['mongodb::service'];
+  anchor { 'mongodb_legacy::begin':
+    before => Class['mongodb_legacy::repository'],
+    notify => Class['mongodb_legacy::service'];
   }
 
 
-  class { 'mongodb::package':
+  class { 'mongodb_legacy::package':
     version      => $version,
     package_name => $package_name,
-    require      => Class['mongodb::repository'],
-    notify       => Class['mongodb::service'];
+    require      => Class['mongodb_legacy::repository'],
+    notify       => Class['mongodb_legacy::service'];
   }
 
-  class { 'mongodb::config':
+  class { 'mongodb_legacy::config':
     dbpath          => $dbpath,
     development     => $development,
     oplog_size      => $oplog_size,
     replicaset_name => $replicaset_name,
-    require         => Class['mongodb::package'],
-    notify          => Class['mongodb::service'];
+    require         => Class['mongodb_legacy::package'],
+    notify          => Class['mongodb_legacy::service'];
   }
 
-  class { 'mongodb::configure_replica_set':
+  class { 'mongodb_legacy::configure_replica_set':
     replicaset_name   => $replicaset_name,
     members           => $replicaset_members,
-    require           => Class['mongodb::service'];
+    require           => Class['mongodb_legacy::service'];
   }
 
-  class { 'mongodb::logging':
-    require => Class['mongodb::config'],
+  class { 'mongodb_legacy::logging':
+    require => Class['mongodb_legacy::config'],
   }
 
-  class { 'mongodb::firewall':
-    require => Class['mongodb::config'],
+  class { 'mongodb_legacy::firewall':
+    require => Class['mongodb_legacy::config'],
   }
 
-  class { 'mongodb::service':
-    require => Class['mongodb::logging'],
+  class { 'mongodb_legacy::service':
+    require => Class['mongodb_legacy::logging'],
   }
 
-  class { 'mongodb::monitoring':
+  class { 'mongodb_legacy::monitoring':
     dbpath  => $dbpath,
-    require => Class['mongodb::service'],
+    require => Class['mongodb_legacy::service'],
   }
 
   class { 'collectd::plugin::mongodb':
-    require => Class['mongodb::config'],
+    require => Class['mongodb_legacy::config'],
   }
 
   # We don't need to wait for the monitoring class
-  anchor { 'mongodb::end':
+  anchor { 'mongodb_legacy::end':
     require => Class[
-      'mongodb::firewall',
-      'mongodb::service',
-      'mongodb::configure_replica_set'
+      'mongodb_legacy::firewall',
+      'mongodb_legacy::service',
+      'mongodb_legacy::configure_replica_set'
     ],
   }
 

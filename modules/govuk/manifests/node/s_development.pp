@@ -21,7 +21,7 @@ class govuk::node::s_development (
   include imagemagick
   include last_puppet_run
   include memcached
-  include mongodb::server
+  include mongodb_legacy::server
   include mysql::client
   include nodejs
   include redis

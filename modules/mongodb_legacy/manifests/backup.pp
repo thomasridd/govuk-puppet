@@ -1,4 +1,4 @@
-# == Class: mongodb::backup
+# == Class: mongodb_legacy::backup
 #
 # Backup MongoDB databases using automongodbbackup
 #
@@ -13,7 +13,7 @@
 # [*domonthly*]
 #   Whether monthly backups should be enabled or disabled
 #
-class mongodb::backup(
+class mongodb_legacy::backup(
   $replicaset_members,
   $enabled = true,
   $domonthly = true,
@@ -44,11 +44,11 @@ class mongodb::backup(
 
   file { '/etc/cron.daily/automongodbbackup-replicaset':
     ensure  => $present,
-    content => template('mongodb/automongodbbackup'),
+    content => template('mongodb_legacy/automongodbbackup'),
     owner   => 'root',
     group   => 'root',
     mode    => '0744',
-    require => Class['mongodb::package'],
+    require => Class['mongodb_legacy::package'],
   } ->
   file { '/var/log/automongodbbackup':
     ensure => directory,
@@ -77,8 +77,8 @@ class mongodb::backup(
     include logrotate
 
     if $s3_backups {
-      include mongodb::s3backup::backup
-      include mongodb::s3backup::package
+      include mongodb_legacy::s3backup::backup
+      include mongodb_legacy::s3backup::package
     }
 
     @@icinga::passive_check { "check_automongodbbackup-${::hostname}":

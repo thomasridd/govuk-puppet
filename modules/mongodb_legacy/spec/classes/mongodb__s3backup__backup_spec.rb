@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-describe 'mongodb::s3backup::backup', :type => :class do
+describe 'mongodb_legacy::s3backup::backup', :type => :class do
   let(:params) {{
     :aws_access_key_id           => '123456789',
     :aws_secret_access_key       => 'ABCDEFGHIJKLMNOP',

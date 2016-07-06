@@ -1,5 +1,5 @@
 #
-class mongodb::s3backup::package {
+class mongodb_legacy::s3backup::package {
 
   
 

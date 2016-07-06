@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-describe 'mongodb::configure_replica_set', :type => :class do
+describe 'mongodb_legacy::configure_replica_set', :type => :class do
   describe 'configure-replica-set' do
     describe 'sets replica set name' do
       let(:params) {{

@@ -10,7 +10,7 @@
 class govuk::node::s_licensify_mongo (
   $licensify_mongo_encrypted = false
 ) inherits govuk::node::s_base {
-  include mongodb::server
+  include mongodb_legacy::server
 
   # FIXME: Remove once deployed
   package { 'openjdk-6-jre-headless':
@@ -20,7 +20,7 @@ class govuk::node::s_licensify_mongo (
   if $licensify_mongo_encrypted {
     include ecryptfs
     motd::snippet {'01-encrypted-licensify': }
-    Govuk_mount['/mnt/encrypted'] -> Class['mongodb::server']
+    Govuk_mount['/mnt/encrypted'] -> Class['mongodb_legacy::server']
 
     # Actual low disk space would get caught by the /mnt/encrypted check however this will catch it not being mounted.
     # Only check if MongoDB's data is on an encrypted filesystem; otherwise /var/lib/mongodb is not used as a mountpoint.
@@ -33,5 +33,5 @@ class govuk::node::s_licensify_mongo (
     }
   }
 
-  Govuk_mount['/var/lib/automongodbbackup'] -> Class['mongodb::backup']
+  Govuk_mount['/var/lib/automongodbbackup'] -> Class['mongodb_legacy::backup']
 }

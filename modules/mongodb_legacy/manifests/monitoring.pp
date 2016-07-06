@@ -1,7 +1,7 @@
 # FIXME: This class needs better documentation as per https://docs.puppetlabs.com/guides/style_guide.html#puppet-doc
-class mongodb::monitoring ($dbpath = '/var/lib/mongodb') {
+class mongodb_legacy::monitoring ($dbpath = '/var/lib/mongodb') {
 
-  include mongodb::python
+  include mongodb_legacy::python
 
   # This plugin is from https://github.com/mzupan/nagios-plugin-mongodb
   # to update to the latest version, run this giant command:

@@ -520,7 +520,7 @@ govuk_sudo::sudo_conf:
     content: 'ubuntu ALL=(ALL) NOPASSWD:ALL'
 
 govuk_unattended_reboot::enabled: true
-govuk_unattended_reboot::mongodb::enabled: true
+govuk_unattended_reboot::mongodb_legacy::enabled: true
 govuk_unattended_reboot::elasticsearch::enabled: true
 
 govuk_unattended_reboot::monitoring_basic_auth:
@@ -995,8 +995,8 @@ limits::entries:
     limit_type: 'nofile'
     hard: 2048
 
-mongodb::repository::apt_mirror_hostname: "%{hiera('apt_mirror_hostname')}"
-mongodb::server::version: '2.4.9'
+mongodb_legacy::repository::apt_mirror_hostname: "%{hiera('apt_mirror_hostname')}"
+mongodb_legacy::server::version: '2.4.9'
 
 monitoring::checks::http_username: "%{hiera('http_username')}"
 monitoring::checks::http_password: "%{hiera('http_password')}"

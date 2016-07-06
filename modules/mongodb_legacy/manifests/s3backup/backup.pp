@@ -1,4 +1,4 @@
-# == Class: mongodb::s3backup::backup
+# == Class: mongodb_legacy::s3backup::backup
 #
 # Backup a MongoDB server to AWS S3
 #
@@ -45,7 +45,7 @@
 #   Defines the system user that will be created
 #   to run the backups
 
-class mongodb::s3backup::backup(
+class mongodb_legacy::s3backup::backup(
   $aws_access_key_id = undef,
   $aws_secret_access_key = undef,
   $aws_region = 'eu-west-1',
@@ -104,7 +104,7 @@ class mongodb::s3backup::backup(
   # push script
   file { '/usr/local/bin/mongodb-backup-s3':
     ensure  => present,
-    content => template('mongodb/mongodb-backup-s3.erb'),
+    content => template('mongodb_legacy/mongodb-backup-s3.erb'),
     owner   => $user,
     group   => $user,
     mode    => '0755',
@@ -145,7 +145,7 @@ class mongodb::s3backup::backup(
   }
 
   # cron
-  include mongodb::s3backup::cron
+  include mongodb_legacy::s3backup::cron
 
   # monitoring
   $threshold_secs = 28 * 3600

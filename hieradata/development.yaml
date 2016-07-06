@@ -231,7 +231,7 @@ govuk_sshkeys::development_keys:
     key: "AAAAB3NzaC1yc2EAAAADAQABAAABAQCvYDHGv5HGn+0UkNySdJKIEfj+dhLA7bE7+jnantWsit7EdzEupG1AffmZxL4fOnKubwclA/ZkeC8/HtTp3ZsM9rmBsyYQLlY3ZRotcPxwLadLHtXGjq71nKbikFafjA1f7NVa0yRqFuHHrcQyzAsfmN1QWP/IaSwUWRI72XlSs+QTuX0NPlhLkJ548ltIXxwUgT/EdXCVA3ZrIrt6KddeKQ5enxB0qqCqoMt4iHIDadSXcfFoT7Y9xSeDZ+vURHll2knuNY2wKncytq3XcYMYey2Ke44CQjRL4GfasoS6DYUqCR2QSzKhWm83zXiYIP0uP4RMpjjwlJFJn/hQtWuX"
 
 govuk_unattended_reboot::enabled: false
-govuk_unattended_reboot::mongodb::enabled: false
+govuk_unattended_reboot::mongodb_legacy::enabled: false
 govuk_unattended_reboot::elasticsearch::enabled: false
 
 hosts::development::apps:
@@ -335,8 +335,8 @@ hosts::development::services:
 memcached::max_memory: 64
 memcached::listen_ip: '127.0.0.1'
 
-mongodb::server::development: true
-mongodb::server::replicaset_members:
+mongodb_legacy::server::development: true
+mongodb_legacy::server::replicaset_members:
   'localhost':
 
 nginx_enable_ssl: false

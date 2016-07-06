@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-describe 'mongodb::server', :type => :class do
+describe 'mongodb_legacy::server', :type => :class do
   let(:facts) {{
     'hostname' => 'mongo-box-1'
   }}
@@ -49,7 +49,7 @@ describe 'mongodb::server', :type => :class do
 
     it do
       is_expected.to contain_file('/etc/mongodb.conf').with_content(/^replSet = production$/)
-      is_expected.to contain_class('mongodb::configure_replica_set').with_members({'mongo-box-1' => {}})
+      is_expected.to contain_class('mongodb_legacy::configure_replica_set').with_members({'mongo-box-1' => {}})
     end
   end
 
@@ -66,7 +66,7 @@ describe 'mongodb::server', :type => :class do
 
     it do
       is_expected.to contain_file('/etc/mongodb.conf').with_content(/^replSet = production$/)
-      is_expected.to contain_class('mongodb::configure_replica_set')
+      is_expected.to contain_class('mongodb_legacy::configure_replica_set')
         .with_members({
         'mongo-box-1' => {},
         'mongo-box-2' => {},

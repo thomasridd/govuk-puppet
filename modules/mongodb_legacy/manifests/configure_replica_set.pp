@@ -1,4 +1,4 @@
-# == Class: mongodb::configure_replica_set
+# == Class: mongodb_legacy::configure_replica_set
 #
 # Configures a MongoDB replica set
 #
@@ -9,11 +9,11 @@
 #
 # [*replicaset_name*]
 #   A string for the name of the replica set.
-#   Passed in by `mongodb::server` which sets it to
+#   Passed in by `mongodb_legacy::server` which sets it to
 #   'production' unless $development is true, in which
 #   case it is set to 'development'.
 #
-class mongodb::configure_replica_set (
+class mongodb_legacy::configure_replica_set (
   $members,
   $replicaset_name,
 ) {
@@ -30,11 +30,11 @@ class mongodb::configure_replica_set (
 
   file { '/etc/mongodb/configure-replica-set.js':
     ensure  => present,
-    content => template('mongodb/configure-replica-set.js'),
+    content => template('mongodb_legacy/configure-replica-set.js'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Class['mongodb::config'],
+    require => Class['mongodb_legacy::config'],
   }
 
   exec { 'configure-replica-set':
@@ -42,7 +42,7 @@ class mongodb::configure_replica_set (
     unless  => "/usr/bin/mongo --host ${members_hostnames[0]} --quiet --eval 'rs.status().ok' | grep -q 1",
     require => [
       File['/etc/mongodb/configure-replica-set.js'],
-      Class['mongodb::service'],
+      Class['mongodb_legacy::service'],
     ],
   }
 
@@ -50,11 +50,11 @@ class mongodb::configure_replica_set (
 
   file { $configure_node_priority_file:
     ensure  => present,
-    content => template('mongodb/configure-node-priority.js.erb'),
+    content => template('mongodb_legacy/configure-node-priority.js.erb'),
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => Class['mongodb::config'],
+    require => Class['mongodb_legacy::config'],
   }
 
   exec { 'configure-node-priority':
@@ -63,7 +63,7 @@ class mongodb::configure_replica_set (
     require => [
       Exec['configure-replica-set'],
       File[$configure_node_priority_file],
-      Class['mongodb::service'],
+      Class['mongodb_legacy::service'],
     ],
   }
 

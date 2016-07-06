@@ -1,6 +1,6 @@
 require_relative '../../../../spec_helper'
 
-describe 'mongodb::config', :type => :class do
+describe 'mongodb_legacy::config', :type => :class do
   describe 'mongodb.conf' do
     context 'defaults' do
       let(:params) {{
