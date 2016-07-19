@@ -1,9 +1,24 @@
 <Plugin postgresql>
+<% if @title == 'publishing_api_production' -%>
+  <Query publishing_api_content_item_count>
+    Statement "SELECT count(*) AS count \
+               FROM content_items;"
+
+    <Result>
+      Type counter
+      ValuesFrom "count"
+    </Result>
+  </Query>
+<% end -%>
+
     <Database <%= @title %>>
 	Host "localhost"
 	Port "5432"
 	User "collectd"
 	Password "<%= @password %>"
 	SSLMode "prefer"
+<% if @title == 'publishing_api_production' -%>
+  Query publishing_api_content_item_count
+<% end -%>
     </Database>
 </Plugin>
