@@ -254,7 +254,7 @@ define govuk::app::config (
     if $json_health_check {
       include icinga::client::check_json_healthcheck
 
-      $healthcheck_desc      = "${title} app health check not ok"
+      $healthcheck_desc      = "${title} app healthcheck"
       $healthcheck_opsmanual = regsubst($healthcheck_desc, ' ', '-', 'G')
 
       @@icinga::check { "check_app_${title}_healthcheck_on_${::hostname}":
