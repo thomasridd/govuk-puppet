@@ -8,7 +8,7 @@ min_required_vagrant_version = '1.3.0'
 # Construct box name and URL from distro and version.
 def get_box(dist, version)
   dist    ||= "trusty"
-  version ||= '20160323'
+  version ||= '20160817'
   
   name  = "govuk_dev_#{dist}64_#{version}"
   bucket = 'govuk-dev-boxes-test'
