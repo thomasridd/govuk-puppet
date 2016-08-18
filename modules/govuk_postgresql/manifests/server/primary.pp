@@ -42,10 +42,18 @@ class govuk_postgresql::server::primary (
       value => 'hot_standby';
     'max_wal_senders':
       value => 3;
-    'checkpoint_segments':
-      value => 8;
     'wal_keep_segments':
       value => 256;
+  }
+
+  # This has been deprecated in PostgreSQL 9.5:
+  # https://www.postgresql.org/docs/9.5/static/release-9-5.html
+  # For now do not set anything as the default is now much higher than before.
+  if $::lsbdistcodename != 'xenial' {
+    postgresql::server::config_entry {
+      'checkpoint_segments':
+      value => 8;
+    }
   }
 
   postgresql::server::role { $user:

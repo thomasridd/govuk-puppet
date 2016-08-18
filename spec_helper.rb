@@ -37,3 +37,8 @@ RSpec.configure do |c|
     :lsbdistcodename         => dist_preferred.capitalize,
   }
 end
+
+if ENV['DEBUG']
+  Puppet::Util::Log.level = :debug
+  Puppet::Util::Log.newdestination(:console)
+end

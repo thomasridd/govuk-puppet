@@ -1,1 +1,26 @@
+---
 postgresql::globals::version: '9.5'
+
+puppet::package::facter_version: '2.3.6-1'
+puppet::package::hiera_version: '2.0.0-2'
+puppet::package::puppet_version: '3.8.5-2'
+
+govuk_safe_to_reboot::can_reboot: 'no'
+govuk_safe_to_reboot::reason: 'Single point of failure for Transition application'
+
+lv:
+  data:
+    pv: '/dev/sdb1'
+    vg: 'postgresql'
+
+mount:
+  /var/lib/postgresql:
+    disk: '/dev/mapper/postgresql-data'
+    govuk_lvm: 'data'
+    mountoptions: 'defaults'
+
+govuk_postgresql::server::primary::slave_addresses:
+  live:
+    address: "%{hiera('postgresql_transition_standby_addresses_live')}"
+  dr:
+    address: "%{hiera('postgresql_transition_standby_addresses_dr')}"
